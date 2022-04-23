@@ -1,4 +1,4 @@
-package com.example.myownfeh;
+package com.example.iceemblemheroes;
 
 import org.junit.Test;
 

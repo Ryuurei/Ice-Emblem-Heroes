@@ -1,16 +1,14 @@
-package com.example.myownfeh.view;
+package com.example.iceemblemheroes.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import androidx.core.content.res.ResourcesCompat;
 
-import com.example.myownfeh.R;
+import com.example.iceemblemheroes.R;
 
 public class MyDragShadowBuilder extends View.DragShadowBuilder {
 

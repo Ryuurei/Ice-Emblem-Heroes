@@ -1,4 +1,4 @@
-package com.example.myownfeh.view;
+package com.example.iceemblemheroes.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -8,9 +8,11 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.example.myownfeh.R;
-import com.example.myownfeh.utils.Point;
-import com.example.myownfeh.utils.Position;
+import com.example.iceemblemheroes.R;
+import com.example.iceemblemheroes.utils.Point;
+import com.example.iceemblemheroes.utils.Position;
+
+import java.util.ArrayList;
 
 // Handles whatever happens on the map background
 // => Drawing unit ranges and generating background image
@@ -28,6 +30,8 @@ public class FEHMapView extends View{
     private float cellSizePixelWidth = 0f; // Size of cell in grid
     private float cellSizePixelHeight = 0f; // Size of cell in grid
 
+    private ArrayList<Position> selectedCharacterMoves = null;
+
     // Constructor
     public FEHMapView(Context context, AttributeSet attrs){
         super(context, attrs);
@@ -39,12 +43,11 @@ public class FEHMapView extends View{
     @Override
     protected void onDraw(Canvas canvas){
         super.onDraw(canvas);
-        cellSizePixelWidth = getWidth() / nbCellsWidth;
-        cellSizePixelHeight = getHeight() / nbCellsHeight;
+        System.out.println("ALLLO");
         //drawLines(canvas);
         //positionUnits(fehGame.getUnits());
-        fillCells(canvas);
-
+//        fillCells(canvas);
+        drawMovementAndRange(canvas);
     }
 
     // Override of onMeasure method, set the size of a pixel
@@ -133,7 +136,11 @@ public class FEHMapView extends View{
         }
     }
 
-    public void drawMovementAndRange(Canvas canvas, Position position) {
+    private void drawMovementAndRange(Canvas canvas) {
+        if (selectedCharacterMoves == null) {
+            return;
+        }
+
         // Selected cell component
         Paint movePaint = new Paint();
         movePaint.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -143,17 +150,20 @@ public class FEHMapView extends View{
         attackPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         attackPaint.setColor(getResources().getColor(R.color.light_red));
 
-        int x = position.getX();
-        int y = position.getY();
-
-        // Iterate on every cell, fill them with a certain color according to selected cell
-        for (int i = 0; i < nbCellsHeight; i++) {
-            for (int j = 0; j < nbCellsWidth; j++) {
-                if (i == selectedRow && j == selectedCol) {
-                  //  fillCell(canvas, i, j, selectedCell);
-                }
-            }
+        for (Position position : selectedCharacterMoves) {
+            fillCell(canvas, position.getX(), position.getY(),
+                    position.getAtkOrMove().equals("atk") ? attackPaint : movePaint);
         }
+    }
+
+    public void drawMovementAndRange(ArrayList<Position> positions) {
+        selectedCharacterMoves = positions;
+        invalidate();
+    }
+
+    public Point getPositionFromRowCol(int row, int column) {
+        Point p = new Point(column * cellSizePixelWidth, row * cellSizePixelHeight);
+        return p;
     }
 
     public Point getPositions(float x, float y) {
@@ -162,6 +172,27 @@ public class FEHMapView extends View{
 
         Point p = new Point(selectedCol * cellSizePixelWidth, selectedRow * cellSizePixelHeight);
         return p;
+    }
+
+    public void computeCellSize() {
+        cellSizePixelWidth = getWidth() / nbCellsWidth;
+        cellSizePixelHeight = getHeight() / nbCellsHeight;
+    }
+
+    public float getCellSizePixelWidth() {
+        return cellSizePixelWidth;
+    }
+
+    public float getCellSizePixelHeight() {
+        return cellSizePixelHeight;
+    }
+
+    public float getNbCellsHeight() {
+        return nbCellsHeight;
+    }
+
+    public float getNbCellsWidth() {
+        return nbCellsWidth;
     }
 
     // Set selected column and row according to where we touch the screen so that the engine knows

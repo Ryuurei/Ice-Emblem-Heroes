@@ -4,20 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.MainActivity">
+    tools:context=".view.MainActivity"
+    android:id="@+id/main_layout">
 
-    <com.example.myownfeh.view.FEHMapView
+    <com.example.iceemblemheroes.view.FEHMapView
         android:id="@+id/FEHboardview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/gridlayout"/>
 
-    <ImageView
-        android:id="@+id/lucina"
-        android:layout_width="67dp"
-        android:layout_height="67dp"
-        android:background="@drawable/lucina_face">
-    </ImageView>
+<!--    <ImageView-->
+<!--        android:id="@+id/lucina"-->
+<!--        android:layout_width="67dp"-->
+<!--        android:layout_height="67dp"-->
+<!--        android:background="@drawable/lucina_face">-->
+<!--    </ImageView>-->
 
     <GridLayout
         android:id="@+id/gridlayout"

@@ -1,6 +1,8 @@
-package com.example.myownfeh.game;
+package com.example.iceemblemheroes.game;
 
-import com.example.myownfeh.utils.Position;
+import com.example.iceemblemheroes.utils.Position;
+
+// Everything related to a character's characteristics
 
 public class FEHCharacter {
 
